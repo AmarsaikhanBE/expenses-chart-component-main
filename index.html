@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- displays site properly based on user's device -->
+
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+
+    <title>Frontend Mentor | Expenses chart component</title>
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
+         :root {
+            /* Primary */
+            --soft-red: hsl(10, 79%, 65%);
+            --cyan: hsl(186, 34%, 60%);
+            /* Neutral */
+            --dark-brown: hsl(25, 47%, 15%);
+            --medium-brown: hsl(28, 10%, 53%);
+            --cream: hsl(27, 66%, 92%);
+            --very-pale-orange: hsl(33, 100%, 98%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1;
+            position: relative;
+            background-color: var(--cream);
+            min-height: 100vh;
+            display: grid;
+            place-content: center;
+        }
+        
+        .container {
+            min-width: calc(375px - 2rem);
+            /* margin: auto; */
+        }
+        
+        .head {
+            background-color: var(--soft-red);
+            border-radius: .5rem;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--cream);
+            margin-bottom: 1rem;
+        }
+        
+        .balance-total {
+            font-size: 1.5rem;
+            margin-top: .75rem;
+        }
+        
+        .logo {
+            width: 4rem;
+        }
+        
+        .main {
+            border-radius: .5rem;
+            padding: 1.25rem;
+            background-color: var(--very-pale-orange);
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            color: var(--dark-brown);
+        }
+        
+        .chart {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 15rem;
+            padding: 2rem 0 3rem;
+            list-style: none;
+            border-bottom: .125rem solid var(--cream);
+        }
+        
+        .bar {
+            width: 2rem;
+            height: 0;
+            background-color: var(--soft-red);
+            border-radius: .25rem;
+            display: block;
+            position: relative;
+            cursor: pointer;
+            transition: height .5s ease-in;
+        }
+        
+        .bar::after {
+            content: attr(after);
+            display: block;
+            position: absolute;
+            top: 100%;
+            padding-top: .25rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: .75rem;
+            line-height: 1;
+            color: var(--medium-brown);
+        }
+        
+        .bar:hover {
+            background-color: rgba(236, 119, 95, .75);
+        }
+        
+        .active:hover {
+            background-color: rgba(118, 181, 188, .75);
+        }
+        
+        .bar:hover::before {
+            content: attr(before);
+            display: block;
+            position: absolute;
+            bottom: calc(100% + .25rem);
+            left: 50%;
+            transform: translateX(-50%);
+            padding-bottom: .25rem;
+            border-radius: .25rem;
+            background-color: var(--dark-brown);
+            color: var(--very-pale-orange);
+            font-size: .75rem;
+            line-height: normal;
+            padding: .25rem;
+            /* content: '$52.36'; */
+        }
+        
+        .active {
+            background-color: var(--cyan);
+        }
+        
+        .footer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+        
+        .month-total {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: .5rem;
+        }
+        
+        .compare {
+            text-align: end;
+        }
+        
+        .compare-percent {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: .25rem;
+        }
+        
+        .compare p {
+            font-size: .95rem;
+        }
+        
+        .balance-total::before,
+        .month-total::before {
+            content: '$';
+        }
+        
+        .compare-percent::after {
+            content: '%';
+        }
+        
+        .attribution {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            font-size: 11px;
+            text-align: center;
+        }
+        
+        .attribution a {
+            color: hsl(228, 45%, 44%);
+        }
+        
+        @media screen and (min-width:600px) {
+            body {
+                font-size: 18px;
+            }
+            .container {
+                min-width: 540px;
+            }
+            .head {
+                border-radius: 1.5rem;
+                padding: 2rem;
+                margin-bottom: 1.5rem;
+            }
+            .balance-total {
+                font-size: 2.1rem;
+            }
+            .logo {
+                width: 4.5rem;
+                transform: translateX(-.5rem);
+            }
+            h2 {
+                font-size: 2rem;
+                padding-left: 1.25rem;
+            }
+            .main {
+                border-radius: 1.5rem;
+            }
+            .chart {
+                margin: 1.25rem;
+                padding-top: 3rem;
+                height: 16rem;
+            }
+            .bar {
+                width: 3.25rem;
+            }
+            .bar:hover:before {
+                font-size: 1rem;
+                padding: .5rem;
+                bottom: calc(100% + .5rem);
+            }
+            .bar::after {
+                font-size: 1rem;
+                top: calc(100% + .25rem);
+            }
+            .footer {
+                padding: 1.25rem;
+            }
+            .month-total {
+                font-size: 3rem;
+                margin-top: .75rem;
+            }
+            .compare-percent {
+                font-size: 1.125rem;
+                margin-bottom: .75rem;
+            }
+            .compare p {
+                font-size: 100%;
+            }
+        }
+    </style>
+    <script>
+        window.onload = async() => {
+            const resp = await fetch('./data.json');
+            const data = await resp.json();
+            const bars = document.querySelectorAll('.bar');
+            const heights = [];
+            data.forEach(day => heights.push(day.amount));
+            let i = 0;
+            start = setInterval(() => {
+                bars[i].setAttribute('after', data[i].day)
+                const content = '$' + data[i].amount
+                bars[i].setAttribute('before', content)
+                const height = data[i].amount / Math.max(...heights) * 100 + '%'
+                bars[i].style.height = height;
+                i++;
+                if (i == bars.length) {
+                    clearInterval(start);
+                }
+            }, 100);
+            bars.forEach(bar => {
+                bar.onclick = () => {
+                    if (document.querySelector('.active') != null) document.querySelector('.active').classList.remove('active');
+                    bar.classList.add('active');
+                };
+            });
+        };
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="head">
+            <div class="balance">
+                <p>My balance</p>
+                <div class="balance-total">921.48</div>
+            </div>
+            <img class="logo" src="./images/logo.svg"></img>
+        </div>
+        <div class="main">
+            <h2>Spending - Last 7 days</h2>
+            <ul class="chart">
+                <li class="bar"></li>
+                <li class="bar"></li>
+                <li class="bar"></li>
+                <li class="bar"></li>
+                <li class="bar"></li>
+                <li class="bar"></li>
+                <li class="bar"></li>
+            </ul>
+            <div class="footer">
+                <div class="month">
+                    <p>Total this month</p>
+                    <div class="month-total">478.33</div>
+                </div>
+                <div class="compare">
+                    <div class="compare-percent">+2.4</div>
+                    <p>from last month</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attribution">
+        Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. Coded by <a href="#">Amarsaikhan.B.E</a>.
+    </div>
+</body>
+
+</html>
